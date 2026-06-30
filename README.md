@@ -100,22 +100,6 @@ REST Controllers
 
 **Where AI got in the way:** Initial scoring lambda had a compile error (effectively-final variable). Needed a manual fix. Over-generated abstractions were trimmed to keep the codebase small.
 
-## If I Had 4 More Hours
-
-1. **Deploy to Railway** with Postgres instead of H2
-2. **Car detail page** with full specs and faux review snippets
-3. **"Why not this car?"** — show trade-offs for cars that almost made the cut
-4. **Shareable shortlist link** — persist by UUID, send to family
-5. **Integration tests** for the full wizard → recommend → shortlist flow
-6. **Mobile polish** — swipeable wizard steps
-
-## Screen Recording
-
-> Record your full build session (terminal + editor + browser) and link it here.
-> This is the primary deliverable for the assignment.
-
-`[Add your Loom / YouTube / Drive link]`
-
 ## Project Structure
 
 ```
