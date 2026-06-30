@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoMatch — Find Your Perfect Car</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🚗</span>
+      <span class="logo-text">AutoMatch</span>
+    </div>
+    <button class="shortlist-btn" id="shortlistToggle" type="button">
+      Shortlist <span class="badge" id="shortlistCount">0</span>
+    </button>
+  </header>
+
+  <main class="container">
+    <!-- Wizard -->
+    <section id="wizard" class="wizard">
+      <div class="wizard-header">
+        <h1>Not sure what to buy?</h1>
+        <p class="subtitle">Answer a few questions — we'll narrow 30+ cars down to your best matches.</p>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p class="step-label" id="stepLabel">Step 1 of 4</p>
+      </div>
+
+      <!-- Step 1: Budget -->
+      <div class="step active" data-step="1">
+        <h2>What's your budget?</h2>
+        <div class="budget-display">
+          <span>₹<span id="minBudgetLabel">5</span>L</span>
+          <span>—</span>
+          <span>₹<span id="maxBudgetLabel">20</span>L</span>
+        </div>
+        <div class="range-group">
+          <label>Min budget (₹L)</label>
+          <input type="range" id="minBudget" min="5" max="55" value="5" step="1">
+        </div>
+        <div class="range-group">
+          <label>Max budget (₹L)</label>
+          <input type="range" id="maxBudget" min="5" max="60" value="20" step="1">
+        </div>
+      </div>
+
+      <!-- Step 2: Body & Fuel -->
+      <div class="step" data-step="2">
+        <h2>What are you looking for?</h2>
+        <div class="chip-group">
+          <p class="chip-label">Body type</p>
+          <div class="chips" id="bodyTypeChips">
+            <button class="chip selected" data-value="ANY">Any</button>
+            <button class="chip" data-value="SUV">SUV</button>
+            <button class="chip" data-value="Sedan">Sedan</button>
+            <button class="chip" data-value="Hatchback">Hatchback</button>
+            <button class="chip" data-value="MPV">MPV</button>
+          </div>
+        </div>
+        <div class="chip-group">
+          <p class="chip-label">Fuel type</p>
+          <div class="chips" id="fuelTypeChips">
+            <button class="chip selected" data-value="ANY">Any</button>
+            <button class="chip" data-value="Petrol">Petrol</button>
+            <button class="chip" data-value="Diesel">Diesel</button>
+            <button class="chip" data-value="EV">Electric</button>
+          </div>
+        </div>
+        <div class="chip-group">
+          <p class="chip-label">Seats needed</p>
+          <div class="chips" id="seatingChips">
+            <button class="chip selected" data-value="5">5</button>
+            <button class="chip" data-value="7">7</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Priorities -->
+      <div class="step" data-step="3">
+        <h2>What matters most to you?</h2>
+        <p class="hint">Drag sliders to set your priorities (higher = more important)</p>
+        <div class="slider-group">
+          <label>⛽ Fuel economy <span id="fuelWeightVal">3</span></label>
+          <input type="range" id="fuelWeight" min="1" max="5" value="3">
+        </div>
+        <div class="slider-group">
+          <label>🛡️ Safety <span id="safetyWeightVal">3</span></label>
+          <input type="range" id="safetyWeight" min="1" max="5" value="3">
+        </div>
+        <div class="slider-group">
+          <label>⚡ Performance <span id="perfWeightVal">2</span></label>
+          <input type="range" id="perfWeight" min="1" max="5" value="2">
+        </div>
+        <div class="slider-group">
+          <label>💰 Value for money <span id="valueWeightVal">4</span></label>
+          <input type="range" id="valueWeight" min="1" max="5" value="4">
+        </div>
+      </div>
+
+      <!-- Step 4: Use case -->
+      <div class="step" data-step="4">
+        <h2>How will you mostly use it?</h2>
+        <div class="use-cards">
+          <button class="use-card selected" data-value="city">
+            <span class="use-icon">🏙️</span>
+            <strong>City driving</strong>
+            <span>Traffic, parking, daily commute</span>
+          </button>
+          <button class="use-card" data-value="highway">
+            <span class="use-icon">🛣️</span>
+            <strong>Highway trips</strong>
+            <span>Long drives, touring</span>
+          </button>
+          <button class="use-card" data-value="family">
+            <span class="use-icon">👨‍👩‍👧‍👦</span>
+            <strong>Family</strong>
+            <span>Kids, space, safety first</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="wizard-nav">
+        <button class="btn btn-ghost" id="prevBtn" type="button" disabled>Back</button>
+        <button class="btn btn-primary" id="nextBtn" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section id="results" class="results hidden">
+      <div class="results-header">
+        <button class="btn btn-ghost" id="backToWizard" type="button">← Edit preferences</button>
+        <h2>Your top matches</h2>
+        <p id="resultsSummary" class="summary"></p>
+      </div>
+      <div id="resultsGrid" class="results-grid"></div>
+    </section>
+  </main>
+
+  <!-- Shortlist drawer -->
+  <aside id="shortlistDrawer" class="drawer hidden">
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <div class="drawer-panel">
+      <div class="drawer-header">
+        <h3>Your Shortlist</h3>
+        <button class="close-btn" id="closeDrawer" type="button">×</button>
+      </div>
+      <p class="drawer-hint">Compare up to 5 cars side by side</p>
+      <div id="shortlistContent"></div>
+      <div id="compareTable" class="compare-table hidden"></div>
+    </div>
+  </aside>
+
+  <script src="/app.js"></script>
+</body>
+</html>
